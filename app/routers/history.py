@@ -41,7 +41,9 @@ async def predict_proto(file: UploadFile = File(...), db: Session = Depends(get_
 
   file.close()
 
-  img_url = "localhost:8000" + generated_img_name[1:]
+  img_url = "https://dermanalyze-api-dev.herokuapp.com" + generated_img_name[1:]
+
+  # img_url = "localhost:8000" + generated_img_name[1:]
 
   new_prediction = models.Prediction(photo_url = img_url, pred_results = "Good image", owner_id = current_user.id)
 
