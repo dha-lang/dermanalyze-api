@@ -12,6 +12,13 @@ class UserCreate(BaseModel):
   email: EmailStr
   password: str
 
+class UserRespPred(BaseModel):
+  id: int
+  email: EmailStr
+
+  class Config:
+    orm_mode = True
+
 class UserResponse(UserBase):
   pass
   id: int
@@ -42,6 +49,17 @@ class BlacklistToken(BaseModel):
 class BlacklistTokenResp(BaseModel):
   email: EmailStr
   logout_at: datetime
+
+  class Config:
+    orm_mode = True
+
+class PredictResp(BaseModel):
+  id : int
+  photo_url : str
+  pred_results :str
+  created_at : datetime
+  owner_id : int
+  owner : UserRespPred
 
   class Config:
     orm_mode = True
