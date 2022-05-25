@@ -12,7 +12,7 @@ import secrets
 from PIL import Image
 
 router = APIRouter(
-  tags=['History']
+  tags=['Predict']
 )
 
 @router.post("/predict", status_code=status.HTTP_201_CREATED, response_model=schemas.PredictResp)
