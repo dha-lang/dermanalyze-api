@@ -1,5 +1,8 @@
 # Dermanalyze API
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3605497 (Update README.md)
 
 <<<<<<< HEAD
 ---
