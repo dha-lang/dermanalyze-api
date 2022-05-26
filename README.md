@@ -1,11 +1,15 @@
 # Dermanalyze API
-API for Dermanalyze app.
+## API for Dermanalyze app.
 
-Language used : Python.
+---
 
-Framework used : FastAPI.
+Language used : **Python**.
 
-Latest update : v.1.2
+Framework used : **FastAPI**.
+
+Latest update : **v.1.2**.
+
+---
 
 To run the API locally, you need to :
 - Make a virtual env and run it.
