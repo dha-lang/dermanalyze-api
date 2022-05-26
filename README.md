@@ -1,7 +1,8 @@
 # Dermanalyze API
-## API for Dermanalyze app.
 
 ---
+
+### API for Dermanalyze app.
 
 Language used : **Python**.
 
