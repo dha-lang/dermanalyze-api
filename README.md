@@ -16,6 +16,7 @@ Framework used : **FastAPI**.
 Database used : **PostgreSQL 14**.
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 Latest update : **v.1.4**.
 
 ---
@@ -38,6 +39,9 @@ Framework used : **FastAPI**.
 =======
 >>>>>>> bb7c041 (Update README.md)
 Latest update : **v.1.2**.
+=======
+Latest update : **v.1.3**.
+>>>>>>> bd2ab83 (Update README.md)
 
 ---
 >>>>>>> 8a09311 (Update README.md)
