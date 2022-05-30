@@ -20,6 +20,7 @@ List of operations you can do :
 
 **Users:**
 - Register.
+- Get User Data.
 - Update User Data.
 
 **Prediction and Prediction History:**
