@@ -24,7 +24,7 @@ List of operations you can do :
 - Update User Data.
 
 **Prediction and Prediction History:**
-- Post Prediction. - _work in progress_
+- Post Prediction. 
 - Get Prediction History. 
 """
 
@@ -46,7 +46,7 @@ tags_metadata = [
 app =  FastAPI(
   title="Dermanalyze API",
   description = description,
-  version="0.0.1",
+  version="1.0.0",
   openapi_tags=tags_metadata
 )
 
