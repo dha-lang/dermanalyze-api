@@ -6,86 +6,19 @@ from .. import models, schemas, utils, oauth2
 from ..database import get_db
 
 #Imports for prediction
-
 import os
 import cv2
 import tensorflow as tf
 import numpy as np
 
-# from keras.models import load_model
-# import cv2
-# import numpy as np
-# import tensorflow as tf
-# from tensorflow.python.keras import backend as K
-# from tensorflow.python.keras.metrics import Metric
-# from tensorflow.python.keras.utils import metrics_utils
-# from tensorflow.python.ops import init_ops
-# from tensorflow.python.ops import math_ops
-# from tensorflow.python.keras.utils.generic_utils import to_list
-
 #Image related imports
 from fastapi import File, UploadFile
 import secrets
-# from fastapi.staticfiles import StaticFiles
 from PIL import Image
 
 router = APIRouter(
   tags=['Predict']
 )
-
-# class BalancedAccuracy(Metric):
-#   def __init__(self, thresholds=None, top_k=None, class_id=None, name="balanced_accuracy", dtype=None):
-#     super(BalancedAccuracy, self).__init__(name=name, dtype=dtype)
-#     self.init_thresholds = thresholds
-#     self.top_k = top_k
-#     self.class_id = class_id
-
-#     default_threshold = 0.5 if top_k is None else metrics_utils.NEG_INF
-#     self.thresholds = metrics_utils.parse_init_thresholds(thresholds, default_threshold=default_threshold)
-#     self.true_positives = self.add_weight('true_positives', shape=(len(self.thresholds),), initializer=init_ops.zeros_initializer)
-#     self.true_negatives = self.add_weight('true_negatives', shape=(len(self.thresholds),), initializer=init_ops.zeros_initializer)
-#     self.false_positives = self.add_weight('false_positives', shape=(len(self.thresholds),), initializer=init_ops.zeros_initializer)
-#     self.false_negatives = self.add_weight('false_negatives', shape=(len(self.thresholds),), initializer=init_ops.zeros_initializer)
-
-#   def update_state(self, y_true, y_pred, sample_weight=None):
-#     return metrics_utils.update_confusion_matrix_variables(
-#         {
-#           metrics_utils.ConfusionMatrix.TRUE_POSITIVES: self.true_positives,
-#           metrics_utils.ConfusionMatrix.FALSE_NEGATIVES: self.false_negatives,
-#           metrics_utils.ConfusionMatrix.TRUE_NEGATIVES: self.true_negatives,
-#           metrics_utils.ConfusionMatrix.FALSE_POSITIVES: self.false_positives,
-#         },
-#         y_true,
-#         y_pred,
-#         thresholds=self.thresholds,
-#         top_k=self.top_k,
-#         class_id=self.class_id,
-#         sample_weight=sample_weight)
-
-#   def result(self):
-#     result = (math_ops.div_no_nan(self.true_positives, self.true_positives + self.false_negatives) +
-#               math_ops.div_no_nan(self.true_negatives, self.true_negatives + self.false_positives)) / 2
-#     return result[0] if len(self.thresholds) == 1 else result
-
-#   def reset_state(self):
-#     num_thresholds = len(to_list(self.thresholds))
-#     K.batch_set_value(
-#       [(v, np.zeros((num_thresholds,))) for v in self.variables])
-
-#   def get_config(self):
-#     config = {
-#       'thresholds': self.init_thresholds,
-#       'top_k': self.top_k,
-#       'class_id': self.class_id
-#     }
-#     base_config = super(BalancedAccuracy, self).get_config()
-#     return dict(list(base_config.items()) + list(config.items()))
-
-# balanced_accuracy = BalancedAccuracy()
-
-# model = load_model('./model/mlmodel1.h5', custom_objects={"BalancedAccuracy":BalancedAccuracy})
-
-# labels = ['akiec', 'bcc', 'bkl', 'df', 'mel', 'nv', 'vasc', 'unk']
 
 base_dir = os.getcwd()
 tflite_dir = os.path.join(base_dir, "tflites")
@@ -98,9 +31,9 @@ async def predict_proto(file: UploadFile = File(...), db: Session = Depends(get_
   filename = file.filename
 
   #test.png = ["test","png"]
-  extension = filename.split(".")[1]
+  extension = filename.split(".")[1].lower()
 
-  if extension not in ["png", "jpg", "jpeg"]:
+  if extension not in ["png", "jpg", "jpeg"]: 
     raise HTTPException(status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE, detail=f"File extension is not allowed.")
 
   #Changing the image name into randomized string to avoid naming conflicts.
@@ -113,20 +46,6 @@ async def predict_proto(file: UploadFile = File(...), db: Session = Depends(get_
     file.write(file_content)
 
   gbr = Image.open(generated_img_name)
-  # gbr = cv2.imread(generated_img_name)
-  # gbr = cv2.resize(gbr,(256,256))
-  # # img = img.resize(size=(256,256))
-  # gbr = np.reshape(gbr,[1,256,256,3])
-
-  # predict = labels[np.argmax(model.predict(gbr))]
-
-  # img = Image.open(generated_img_name)
-  # gbr = cv2.imread(generated_img_name)
-  # gbr = cv2.resize(gbr,(256,256))
-  # # img = img.resize(size=(256,256))
-  # gbr = np.reshape(gbr,[1,256,256,3])
-
-  # predict = labels[np.argmax(model.predict(gbr))]
 
   img = cv2.imread(generated_img_name, cv2.IMREAD_COLOR)
   img_dtype = img.dtype
@@ -168,11 +87,11 @@ async def predict_proto(file: UploadFile = File(...), db: Session = Depends(get_
 
   file.close()
 
-  img_url = "https://dermanalyze-api-dev.herokuapp.com" + generated_img_name[1:]
+  # img_url = "https://dermanalyze-api-dev.herokuapp.com" + generated_img_name[1:]
 
   # img_url = "localhost:8000" + generated_img_name[1:]
 
-  # img_url = "Google IP" + generated_img_name[1:]
+  img_url = "Google IP" + generated_img_name[1:]
 
   new_prediction = models.Prediction(photo_url = img_url, pred_results = label, owner_id = current_user.id)
 
