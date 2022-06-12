@@ -38,4 +38,3 @@ To run the API on Google Cloud Platform, you need to:
 - Create a service file for the API.
 - Install and setup nginx.
 
-Development server via Heroku (Without ML Model) : https://dermanalyze-api-dev.herokuapp.com/docs
